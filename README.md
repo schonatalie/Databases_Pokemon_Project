@@ -7,7 +7,7 @@ This database will model a Pokemon TCG collection!
 
 Entities:
 1. Pokemon: represents a pokemon species
-   Attributes:
+   /Attributes:
    1. Name
    2. Pokedex Number
    3. Evolution Stage
