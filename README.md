@@ -8,27 +8,27 @@ This database will model a Pokemon TCG collection!
 Entities:
 1. Pokemon: represents a pokemon species
    Attributes:
-   *Name
-   *Pokedex Number
-   *Evolution Stage
+   1. Name
+   2. Pokedex Number
+   3. Evolution Stage
 
-2. Card: represents the physical printed card
+3. Card: represents the physical printed card
    Attrbutes:
-   *Card number
-   *Illustrator
-   *Rarity
-   *Value
+   1. Card number
+   2. Illustrator
+   3. Rarity
+   4. Value
 
 4. Set: represents an expanstion/set the cards were released in
    Attributes
-   *Set Name
-   *Total Card Count
-   *Series
+   1. Set Name
+   2. Total Card Count
+   3. Series
 
 5. Type: represents the elemental type the pokemon is
    Attributes
-   *Type Name
-   *Symbol/Color
+   1. Type Name
+   2. Symbol/Color
 
 Use-cases:
 1. What cards am I missing to complete a set?
