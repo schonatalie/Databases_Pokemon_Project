@@ -8,14 +8,14 @@ This database will model a Pokemon TCG collection!
 Entities:
 1. Pokemon: represents a pokemon species
 
-   Attributes:
+    Attributes:
    1. Name
    2. Pokedex Number
    3. Evolution Stage
 
-3. Card: represents the physical printed card
+4. Card: represents the physical printed card
    
-   Attrbutes:
+    Attrbutes:
    1. Card number
    2. Illustrator
    3. Rarity
@@ -23,14 +23,14 @@ Entities:
 
 5. Set: represents an expanstion/set the cards were released in
    
-   Attributes
+    Attributes
    1. Set Name
    2. Total Card Count
    3. Series
 
 7. Type: represents the elemental type the pokemon is
    
-   Attributes
+    Attributes
    1. Type Name
    2. Symbol/Color
 
