@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokémon Table</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Pokémon Table</h1>
+
+    {% if message %}
+        <p class="message">{{ message }}</p>
+    {% endif %}
+
+    <h2>Current Pokémon</h2>
+
+    <table>
+        <tr>
+            <th>Pokédex Number</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Evolution Stage</th>
+        </tr>
+
+        {% for p in pokemon %}
+        <tr>
+            <td>{{ p.pokedexNumber }}</td>
+            <td>{{ p.name }}</td>
+            <td>{{ p.pokemonType or "N/A" }}</td>
+            <td>{{ p.evolutionStage or "N/A" }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <h2>Add a Pokémon</h2>
+
+    <form method="POST" action="/">
+
+        <label for="number">Pokédex Number:</label><br>
+        <input type="number" id="number" name="number"
+               min="1" required>
+        <br>
+
+        <label for="name">Pokémon Name:</label><br>
+        <input type="text" id="name" name="name"
+               maxlength="50" required>
+        <br>
+
+        <label for="stage">Evolution Stage:</label><br>
+        <input type="text" id="stage" name="stage"
+               maxlength="30">
+        <br>
+
+        <button type="submit">Add Pokémon</button>
+
+    </form>
+
+</body>
+</html>
