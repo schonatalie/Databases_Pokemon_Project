@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Pokémon</title>
+</head>
+
+<body>
+
+    <h1>Edit Pokémon</h1>
+
+    {% if message %}
+        <p style="color: red;">{{ message }}</p>
+    {% endif %}
+
+    <form method="POST">
+
+        <label for="number">Pokédex Number:</label><br>
+        <input type="number"
+               id="number"
+               name="number"
+               value="{{ pokemon.pokedexNumber }}"
+               min="1"
+               required>
+
+        <br><br>
+
+        <label for="name">Pokémon Name:</label><br>
+        <input type="text"
+               id="name"
+               name="name"
+               value="{{ pokemon.name }}"
+               maxlength="50"
+               required>
+
+        <br><br>
+
+        <label for="stage">Evolution Stage:</label><br>
+        <input type="text"
+               id="stage"
+               name="stage"
+               value="{{ pokemon.evolutionStage or '' }}"
+               maxlength="30">
+
+        <br><br>
+
+        <button type="submit">Save Changes</button>
+
+    </form>
+
+    <br>
+
+    <a href="{{ url_for('pokemon') }}">Back to Pokémon Database</a>
+
+</body>
+</html>
