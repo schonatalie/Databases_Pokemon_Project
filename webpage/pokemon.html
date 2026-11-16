@@ -22,11 +22,16 @@
 
     <h1>Pokémon Database</h1>
 
+    <!--link to Types page-->
+     <p><a href="{{ url_for('types') }}">View all Types</a></p> $
+
     {% if message %}
         <p>{{ message }}</p>
     {% endif %}
 
     <h2>Current Pokémon</h2>
+
+    <p>Click a Pokémon's name to see its types or add a type to it.</p>
 
     <table>
         <tr>
@@ -39,8 +44,13 @@
 
         {% for p in pokemon %}
         <tr>
+        <!--name is the link to types page-->
             <td>{{ p.pokedexNumber }}</td>
-            <td>{{ p.name }}</td>
+             <td>
+                <a href="{{ url_for(
+                    'pokemon_types',
+                    number=p.pokedexNumber
+                ) }}">{{ p.name }}</a>
             <td>{{ p.evolutionStage or "N/A" }}</td>
             <td>{{ p.pokemonType or "N/A" }}</td>
 

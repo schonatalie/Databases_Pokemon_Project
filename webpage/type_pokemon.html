@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ type.typeName }} Type Pokémon</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Pokémon with the {{ type.typeName }} Type</h1>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <p>Color: {{ type.color or "N/A" }}</p>
+
+    <table>
+        <tr>
+            <th>Pokédex Number</th>
+            <th>Name</th>
+            <th>Evolution Stage</th>
+        </tr>
+
+        {% for p in pokemon %}
+        <tr>
+            <td>{{ p.pokedexNumber }}</td>
+            <td>
+                <a href="{{ url_for('pokemon_types', number=p.pokedexNumber) }}">
+                    {{ p.name }}
+                </a>
+            </td>
+            <td>{{ p.evolutionStage or "N/A" }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="3">No Pokémon have this type yet.</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <h2>Add a Pokémon to the {{ type.typeName }} Type</h2>
+
+    {% if available %}
+
+    <form method="POST">
+
+        <label for="pokedexNumber">Pokémon:</label><br>
+        
+        <select id="pokedexNumber" name="pokedexNumber" required>
+            <option value="">-- Choose a Pokémon --</option>
+            {% for p in available %}
+            <option value="{{ p.pokedexNumber }}">
+                #{{ p.pokedexNumber }} {{ p.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <button type="submit">Add to Type</button>
+
+    </form>
+    {% else %}
+        <p>Every Pokémon already has this type.</p>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('types') }}">Back to Types</a>
+    |
+    <a href="{{ url_for('pokemon') }}">Back to Pokémon Database</a>
+
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Types of {{ pokemon.name }}</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Types of #{{ pokemon.pokedexNumber }} {{ pokemon.name }}</h1>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <p>Click a type to see every Pokémon with that type.</p>
+
+    <table>
+        <tr>
+            <th>Type</th>
+            <th>Color</th>
+        </tr>
+
+        {% for t in types %}
+        <tr>
+            <td>
+                <!--link to pokemon list w/ the specific type-->
+                <a href="{{ url_for('type_pokemon', type_name=t.typeName) }}">
+                    {{ t.typeName }}
+                </a>
+            </td>
+            <td>{{ t.color or "N/A" }}</td>
+        </tr>
+
+        {% else %}
+
+        <tr>
+            <td colspan="2">This Pokémon has no types yet.</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <h2>Add a Type to {{ pokemon.name }}</h2>
+
+    {% if available %}
+   
+    <form method="POST">
+
+        <label for="typeName">Type:</label><br>
+     
+        <select id="typeName" name="typeName" required>
+            <option value="">-- Choose a type --</option>
+            {% for t in available %}
+            <option value="{{ t.typeName }}">{{ t.typeName }}</option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <button type="submit">Add Type</button>
+
+    </form>
+    {% else %}
+        <p>{{ pokemon.name }} already has every type.</p>
+    {% endif %}
+
+    <br>
+
+    <a href="{{ url_for('pokemon') }}">Back to Pokémon Database</a>
+    |
+    <a href="{{ url_for('types') }}">View all Types</a>
+
+</body>
+</html>

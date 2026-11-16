@@ -1,0 +1,52 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Pokemon Types</title>
+
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Pokémon Types</h1>
+
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    <p>Click a type to see which Pokvmon have it!</p>
+
+    <table>
+        <th>Type</th>
+        <th>Color</th>
+        <th>Number of Pokémon</th>
+
+        {% for t in types %}
+        <tr>
+            <td>
+                <a href="{{ url_for('type_pokemon', type_name=t.typeName) }}">
+                    {{ t.typeName}}
+                </a>
+            </td>
+            <td>{{ t.color or "N/A" }}</td>
+            <td>{{ t.pokemonCount }}</td>
+        </tr>
+    {% endfor %}
+    </table>
+
+    <br>
+
+    <a href="{{ url_for('pokemon') }}">Back to Pokémon Database</a>
+
+</body>
+</html>

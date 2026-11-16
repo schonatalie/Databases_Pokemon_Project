@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 8.4.10, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 8.4.11, for Linux (x86_64)
 --
 -- Host: localhost    Database: pokemonDB
 -- ------------------------------------------------------
--- Server version	8.4.10-0ubuntu0.26.04.1
+-- Server version	8.4.11-0ubuntu0.26.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -67,7 +67,7 @@ CREATE TABLE `Pokemon` (
 
 LOCK TABLES `Pokemon` WRITE;
 /*!40000 ALTER TABLE `Pokemon` DISABLE KEYS */;
-INSERT INTO `Pokemon` VALUES (906,'Sprigatito','Basic'),(924,'Tandemaus','Basic');
+INSERT INTO `Pokemon` VALUES (4,'Charmander','Basic'),(6,'Charizard','Stage 2'),(7,'Squirtle','Basic'),(25,'Pikachu','Basic'),(41,'Zubat','Basic'),(63,'Abra','Basic'),(74,'Geodude','Basic'),(123,'Scyther','Basic'),(131,'Lapras','Basic'),(248,'Tyranitar','Stage 2'),(559,'Scraggy','Stage 1'),(722,'Rowlet','Basic'),(724,'Decidueye','Stage 3'),(906,'Sprigatito','Basic'),(924,'Tandemaus','Basic');
 /*!40000 ALTER TABLE `Pokemon` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -120,7 +120,7 @@ CREATE TABLE `PokemonType` (
 
 LOCK TABLES `PokemonType` WRITE;
 /*!40000 ALTER TABLE `PokemonType` DISABLE KEYS */;
-INSERT INTO `PokemonType` VALUES (924,'Colorless'),(906,'Grass');
+INSERT INTO `PokemonType` VALUES (123,'Bug'),(559,'Colorless'),(924,'Colorless'),(248,'Dark'),(25,'Electric'),(4,'Fire'),(6,'Fire'),(6,'Flying'),(41,'Flying'),(123,'Flying'),(559,'Grass'),(906,'Grass'),(74,'Ground'),(131,'Ice'),(41,'Poison'),(63,'Psychic'),(74,'Rock'),(248,'Rock'),(7,'Water'),(131,'Water');
 /*!40000 ALTER TABLE `PokemonType` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -145,7 +145,7 @@ CREATE TABLE `Type` (
 
 LOCK TABLES `Type` WRITE;
 /*!40000 ALTER TABLE `Type` DISABLE KEYS */;
-INSERT INTO `Type` VALUES ('Colorless','Neutral vs all types','Gray'),('Grass','Strong vs Water','Green');
+INSERT INTO `Type` VALUES ('Bug','Strong against Grass, Psychic, Dark','Light Green'),('Colorless','Neutral vs all types','Gray'),('Dark','Strong against Psychic, Ghost','Black'),('Electric','Strong against Water, Flying','Yellow'),('Fire','Strong against Grass, Ice, Bug, Steel','Red'),('Flying','Strong against Grass, Fighting, Bug','Light Blue'),('Grass','Strong vs Water','Green'),('Ground','Strong against Fire, Electric, Rock','Brown'),('Ice','Strong against Grass, Ground, Flying, Dragon','Light Blue'),('Poison','Strong against Grass, Fairy','Purple'),('Psychic','Strong against Fighting, Poison','Pink'),('Rock','Strong against Fire, Ice, Flying, Bug','Gray'),('Steel','Strong against Ice, Rock, Fairy','Silver'),('Water','Strong against Fire, Ground, Rock','Blue');
 /*!40000 ALTER TABLE `Type` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -158,4 +158,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-09-27 19:11:44
+-- Dump completed on 2026-11-15 23:59:54

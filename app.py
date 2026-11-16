@@ -249,6 +249,169 @@ def delete_pokemon(number):
     return redirect(url_for("pokemon", message=message))
 
 
+#MANY-TO-MANY CODE -- Pokemon to Type
+
+def run_query(sql, params=()):
+    conn = connect_to_database()
+    cursor = conn.cursor(dictionary=True)
+
+    try:
+        cursor.execute(sql, params)
+        return cursor.fetchall()
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+def add_pokemon_type(dex, type_name):
+    if not dex or not type_name:
+        return False, "Please make a choice from the list."
+
+    already = run_query(
+        "SELECT 1 FROM PokemonType WHERE pokedexNumber = %s AND typeName = %s",
+        (dex, type_name)
+    )
+
+    if already:
+        return False, "That Pokemon already has that type."
+
+    conn = connect_to_database()
+    cursor = conn.cursor()
+
+    try:
+        cursor.execute(
+            "INSERT INTO PokemonType (pokedexNumber, typeName) VALUES (%s, %s)",
+            (dex, type_name)
+        )
+        conn.commit()
+        return True, "Added " + type_name + " to Pokemon #" + str(dex) + "."
+
+    except mysql.connector.Error as err:
+        conn.rollback()
+        return False, "Database error: " + str(err)
+
+    finally:
+        cursor.close()
+        conn.close()
+
+
+#SELECT: list every type & clicking type shows its Pokemon!
+@app.route("/types")
+def types():
+    type_list = run_query("""
+        SELECT t.typeName, t.color, COUNT(pt.pokedexNumber) AS pokemonCount
+        FROM `Type` t
+        LEFT JOIN PokemonType pt ON t.typeName = pt.typeName
+        GROUP BY t.typeName, t.color
+        ORDER BY t.typeName
+    """)
+
+    return render_template(
+        "types.html", types=type_list, message=request.args.get("message")
+    )
+
+
+#SELECT & INSERT -- pokemon w/ one type, and adding another pokemon
+@app.route("/types/<type_name>", methods=["GET", "POST"])
+def type_pokemon(type_name):
+    message = request.args.get("message")
+
+    found = run_query(
+        "SELECT typeName, color FROM `Type` WHERE typeName = %s", (type_name,)
+    )
+
+    if not found:
+        return redirect(url_for("types", message="Type not found."))
+
+    type_row = found[0]
+
+    if request.method == "POST":
+        success, message = add_pokemon_type(
+            request.form.get("pokedexNumber", type=int), type_row["typeName"]
+        )
+
+        if success:
+            return redirect(url_for(
+                "type_pokemon", type_name=type_row["typeName"], message=message
+            ))
+
+    pokemon_with_type = run_query("""
+        SELECT p.pokedexNumber, p.name, p.evolutionStage
+        FROM Pokemon p
+        JOIN PokemonType pt ON p.pokedexNumber = pt.pokedexNumber
+        WHERE pt.typeName = %s
+        ORDER BY p.pokedexNumber
+    """, (type_row["typeName"],))
+
+    available = run_query("""
+        SELECT pokedexNumber, name
+        FROM Pokemon
+        WHERE pokedexNumber NOT IN (
+            SELECT pokedexNumber FROM PokemonType WHERE typeName = %s
+        )
+        ORDER BY pokedexNumber
+    """, (type_row["typeName"],))
+
+    return render_template(
+        "type_pokemon.html",
+        type=type_row,
+        pokemon=pokemon_with_type,
+        available=available,
+        message=message
+    )
+
+
+#SELECT & INSERT (continued) -- types of one pokemon, and adding another type
+@app.route("/pokemon/<int:number>/types", methods=["GET", "POST"])
+def pokemon_types(number):
+    message = request.args.get("message")
+
+    found = run_query(
+        "SELECT pokedexNumber, name FROM Pokemon WHERE pokedexNumber = %s",
+        (number,)
+    )
+
+    if not found:
+        return redirect(url_for("pokemon", message="Pokemon not found."))
+
+    pokemon_row = found[0]
+
+    if request.method == "POST":
+        success, message = add_pokemon_type(
+            number, request.form.get("typeName", "").strip()
+        )
+
+        if success:
+            return redirect(url_for(
+                "pokemon_types", number=number, message=message
+            ))
+
+    current_types = run_query("""
+        SELECT t.typeName, t.color
+        FROM `Type` t
+        JOIN PokemonType pt ON t.typeName = pt.typeName
+        WHERE pt.pokedexNumber = %s
+        ORDER BY t.typeName
+    """, (number,))
+
+    available = run_query("""
+        SELECT typeName
+        FROM `Type`
+        WHERE typeName NOT IN (
+            SELECT typeName FROM PokemonType WHERE pokedexNumber = %s
+        )
+        ORDER BY typeName
+    """, (number,))
+
+    return render_template(
+        "pokemon_types.html",
+        pokemon=pokemon_row,
+        types=current_types,
+        available=available,
+        message=message
+    )
+
+
 if __name__ == "__main__":
     app.run(port=8000, debug=True, host="0.0.0.0")
-
